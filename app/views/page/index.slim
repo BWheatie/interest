@@ -1,0 +1,8 @@
+= simple_form_for @pin, :remote => true :html => { :'data-type' => 'html', :id => 'create_comment_form' } do |f|
+  = f.input(:url)
+  = f.input(:note)
+  div class="validation-error"
+  = f.submit
+  end
+
+div id="comments"
