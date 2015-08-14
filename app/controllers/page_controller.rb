@@ -1,6 +1,9 @@
 class PageController < ApplicationController
   respond_to :html, :xml, :json
+
   def index
+    @pins = Pin.all
+    @pin = Pin.new
   end
 
   def create
@@ -9,7 +12,7 @@ class PageController < ApplicationController
       respond_with do |format|
         format.html do
           if request.xhr?
-            render :partial => "pin/show", :locals => { :pin => @pin }, :layout => false, :status => :created
+            render :partial => "pin/index", :locals => { :pin => @pin }, :layout => false, :status => :created
           else
             redirect_to @pin
           end
