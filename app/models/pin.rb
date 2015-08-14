@@ -1,4 +1,3 @@
 class Pin < ActiveRecord::Base
-  def show
-  end
+  validates :url, presence: true
 end

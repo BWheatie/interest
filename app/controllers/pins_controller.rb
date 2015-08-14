@@ -2,10 +2,14 @@ class PinsController < ApplicationController
   def create
     @pin = Pin.new(pin_params)
     if @pin.save
-      head :ok
+      render :json => @pin
     else
-      head :bad_request
+      render :json => { :errors => @pin.errors }, :status => 422
     end
+  end
+
+  def show
+    @pin = Pins.all
   end
 
   private

@@ -1,68 +1,24 @@
-= simple_form_for @pin, :remote => true, :html => { :'data-type' => 'html', :id => 'create_pin_form' } do |f|
-  = f.input(:url)
-  = f.input(:notes)
-  div class="validation-error"
-  = f.submit
-  end
+button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#new-pin"
+  | New Pin
+#new-pin.modal.fade tabindex="-1" role="dialog" aria-labelledby="new-pin-label"
+  .modal-dialog role="document"
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true"
+        h4#new-pin-label.modal-title New Pin
+      = simple_form_for @pin, remote: true do |f|
+        .modal-body
+          = f.input(:url)
+          = f.input(:notes)
+        .modal-footer
+          = f.submit class: "btn btn-primary"
+          button type="button" class="btn btn-default" data-dismiss="modal" Close
+coffee:
+  $("#new-pin").on "ajax:success", (e, data, status, xhr) ->
+    $("#new-pin").modal("hide")
 
-div id="pins"
-
-javascript:
-  $(document).ready(function(){
-
-  $('#create_pin_form')
-    .bind("ajax:beforeSend", function(evt, xhr, settings){
-      var $submitButton = $(this).find('input[name="commit"]');
-
-      // Update the text of the submit button to let the user know stuff is happening.
-      // But first, store the original text of the submit button, so it can be restored when the request is finished.
-      $submitButton.data( 'origText', $(this).text() );
-      $submitButton.text( "Submitting..." );
-
-    })
-    .bind("ajax:success", function(evt, data, status, xhr){
-      var $form = $(this);
-
-      // Reset fields and any validation errors, so form can be used again, but leave hidden_field values intact.
-      $form.find(',input[type="text"],input[type="file"]').val("");
-      $form.find('div.validation-error').empty();
-
-      // Insert response partial into page below the form.
-      $('#pins').append(xhr.responseText);
-
-    })
-    .bind('ajax:complete', function(evt, xhr, status){
-      var $submitButton = $(this).find('input[name="commit"]');
-
-      // Restore the original submit button text
-      $submitButton.text( $(this).data('origText') );
-    })
-    .bind("ajax:error", function(evt, xhr, status, error){
-      var $form = $(this),
-          errors,
-          errorText;
-
-      try {
-        // Populate errorText with the comment errors
-        errors = $.parseJSON(xhr.responseText);
-      } catch(err) {
-        // If the responseText is not valid JSON (like if a 500 exception was thrown), populate errors with a generic error message.
-        errors = {message: "Please reload the page and try again"};
-      }
-
-      // Build an unordered list from the list of errors
-      errorText = "There were errors with the submission: \n<ul>";
-
-      for ( error in errors ) {
-        errorText += "<li>" + error + ': ' + errors[error] + "</li> ";
-      }
-
-      errorText += "</ul>";
-
-      // Insert error list into form
-      $form.find('div.validation-error').html(errorText);
-    });
-
-  });
-
-Pins.index
+- @pins.each do |pin|
+  .panel.panel-default
+    .panel-heading
+      h3.panel-title = pin.url
+    .panel-body = pin.notes
