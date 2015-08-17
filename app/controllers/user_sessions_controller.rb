@@ -1,15 +1,16 @@
 class UserSessionsController < ApplicationController
   def new
-    @user_session = UserSession.new
+    @session = UserSession.new
   end
 
   def create
-    @user_session = UserSession.new(user_session_params)
-    if @user_session.save
+    @session = UserSession.new(user_session_params)
+    if @session.save
       flash[:success] = "Welcome back!"
       redirect_to root_path
     else
-      render :action => :new
+      flash[:error] = "Invalid login"
+      render :new
     end
   end
 
