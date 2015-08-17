@@ -9,13 +9,28 @@ button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-tar
       = simple_form_for @pin, remote: true do |f|
         .modal-body
           = f.input(:url)
-          = f.input(:notes)
+          br
+          = f.input_field(:notes)
         .modal-footer
           = f.submit class: "btn btn-primary"
           button type="button" class="btn btn-default" data-dismiss="modal" Close
 coffee:
   $("#new-pin").on "ajax:success", (e, data, status, xhr) ->
     $("#new-pin").modal("hide")
+
+
+button type="button" class="btn btn-primary btn-lg"
+    - if current_user
+        = link_to user_session_path, method: :delete
+          = "Sign Out"
+    - else
+        / # = link_to sign_in_path, method: :get
+          / # = "Sign In"
+        / # = link_to new_user_path, method: :post
+          = "Sign Up"
+
+
+
 
 - @pins.each do |pin|
   .panel.panel-default

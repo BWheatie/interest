@@ -6,6 +6,9 @@ class PinsController < ApplicationController
     else
       render :json => { :errors => @pin.errors }, :status => 422
     end
+    respond_to do |format|
+    format.html
+    format.json
   end
 
   def show
