@@ -1,22 +1,14 @@
-div class="modal"
-  label for="modal-1"
-    div class="modal-trigger" New Pin
-
-  input class="modal-state" id="modal-1" type="checkbox"
-  div class="modal-window"
-    div class="modal-inner"
-      label class="modal-close" for="modal-1"
-      h1 New Pin
+#new-pin-modal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title Modal title
       = simple_form_for Pin.new, remote: true do |f|
-        .modal-forms
-          = f.input(:url)
-          br
-          = f.input(:notes)
-          .modal-footer
-            = f.submit class: "btn btn-primary"
-  coffee:
-    insertImage = (data) ->
-      $('#image-list').append("<div class=\"panel panel-default\">").append("<div class=\"panel-heading\"><img src=\""+data.url+"\"></div><div class\"panel-body\">"+data.notes+"</div>")
-    $("#new-pin").on "ajax:success", (e, data, status, xhr) ->
-      insertImage(data)
-      $("#new-pin").modal("hide")
+        .modal-body
+          = f.input :url
+          = f.input :notes
+        .modal-footer
+          button type="button" class="btn btn-default" data-dismiss="modal" Close
+          = f.submit class: "btn btn-primary"
