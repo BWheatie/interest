@@ -1,32 +1,37 @@
-button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#new-pin"
-  | New Pin
-#new-pin.modal.fade tabindex="-1" role="dialog" aria-labelledby="new-pin-label"
-  .modal-dialog role="document"
-    .modal-content
-      .modal-header
-        button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true"
-        h4#new-pin-label.modal-title New Pin
-      = simple_form_for @pin, remote: true do |f|
-        .modal-body
-          = f.input(:url)
-          br
-          = f.input_field(:notes)
-        .modal-footer
-          = f.submit class: "btn btn-primary"
-          button type="button" class="btn btn-default" data-dismiss="modal" Close
-coffee:
-  $("#new-pin").on "ajax:success", (e, data, status, xhr) ->
-    $("#new-pin").modal("hide")
+body
+  div class="container"
+    div class="header clearfix"
+      nav
+        ul class="nav nav-pills pull-right"
+          li role="presentation"
+            =link_to 'Home', root_path
+          li role="presentation"
+            - if current_user
+              = link_to "Sign Out", user_session_path, method: :delete
+            - else
+              = link_to "Sign In", new_user_session_path
+          li role="presentation"
+            a class= "newpin" New Pin
+            = render 'modal'
 
 
-- if current_user
-  = link_to "Sign Out", user_session_path, method: :delete, class: "btn btn-primary btn-lg"
-- else
-  = link_to "Sign In", new_user_session_path, class: "btn btn-primary btn-lg"
-  = link_to "Sign Up", new_user_path, class: "btn btn-primary btn-lg"
+      h3 class="text-muted" Interest
 
-- @pins.each do |pin|
-  .panel.panel-default
-    .panel-heading
-      = image_tag pin.url, width: 250
-    .panel-body = pin.notes
+    div class="jumbotron"
+      h1 Pin Board
+      br
+      p class="lead" Post new pictures of your idea. Be sure to include a description of the picture.
+      p button="btn btn-lg btn-success"
+        = link_to 'Sign up today', new_user_path
+
+    div class="row marketing"
+      div class="col-lg-6"
+        #image-list
+          - @pins.each do |pin|
+            .panel.panel-default
+              .panel-heading
+                = image_tag pin.url, width: 250
+              .panel-body = pin.notes
+
+    footer class="footer"
+      p &copy; Ben Wheat 2014
