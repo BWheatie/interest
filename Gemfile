@@ -4,6 +4,7 @@ ruby '2.2.2'
 gem 'authlogic'
 gem 'bootstrap-sass'
 gem 'bourbon'
+gem "bower-rails"
 gem 'capybara'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'figaro'

@@ -17,10 +17,11 @@ html
               - else
                 = link_to "Sign In", new_user_session_path
             li role="presentation"
-              a onclick="$('#new-pin-modal').modal('toggle');" New Pin
+              a
+              / a onclick="$('#new-pin-modal').modal('toggle');" New Pin
         h3 class="text-muted" Interest
       = render partial: "shared/flash_messages", flash: flash
       = yield
       footer class="footer"
         p &copy; Ben Wheat 2014
-      = render 'new_pin_modal'
+      / = render 'new_pin_modal'
