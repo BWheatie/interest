@@ -1,5 +1,6 @@
 class PinsController < ApplicationController
   def create
+    authenticate user!
     @pin = Pin.new(pin_params)
     if @pin.save
       render :json => @pin
